@@ -5,14 +5,25 @@ namespace DiaryAPI.Services
     public class UserService
     {
         readonly DBContext Context = new();
-        public List<User> GetUsers()
+        public List<User> GetUsers(int count)
         {
-            return Context.Users.ToList();
+            return Context.Users.Take(count).ToList();
 
         }
-        public void CreateUser(User newUser)
+        public bool CreateUser(User newUser)
         {
-            Context.Users.Add(newUser); 
+            bool isUserAdded = true;
+            try
+            {
+                Context.Users.Add(newUser);
+
+
+            }
+            catch (Exception)
+            {
+                isUserAdded = false;
+            }
+            return isUserAdded;
 
         }
 
@@ -29,6 +40,10 @@ namespace DiaryAPI.Services
 
             }
             return isDeleted;
+        }
+        public User? GetUser(int id)
+        {
+            return Context.Users.Find(id);
         }
     }
 }

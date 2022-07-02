@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DiaryAPI</name>
+    </assembly>
+    <members>
+        <member name="M:DiaryAPI.Controllers.UsersController.GetUsers(System.Int32)">
+            <summary>
+            Returns a user for a given id   
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DiaryAPI.Controllers.UsersController.CreateUser(DiaryAPI.Models.User)">
+            <summary>
+            Creates a user    
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DiaryAPI.Controllers.UsersController.UpdateUser(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{DiaryAPI.Models.User})">
+            <summary>
+            Edits a user by its id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DiaryAPI.Controllers.UsersController.DeleteUsers(System.Int32)">
+            <summary>
+            Deletes a user with a given id
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
