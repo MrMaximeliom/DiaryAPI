@@ -59,7 +59,7 @@ namespace DiaryAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult UpdateUser(int id,JsonPatchDocument<User> userUpdates)
         {
-            DBContext context = new();
+            ApplicationDBContext context = new();
             User? user = context.Users.Find(id);
             if (user != null)
             {

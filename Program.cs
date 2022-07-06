@@ -3,7 +3,7 @@ using DiaryAPI.Data;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
-DBContext db_context = new();
+ApplicationDBContext db_context = new();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

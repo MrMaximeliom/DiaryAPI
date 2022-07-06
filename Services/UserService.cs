@@ -4,7 +4,7 @@ namespace DiaryAPI.Services
 {
     public class UserService
     {
-        readonly DBContext Context = new();
+        readonly ApplicationDBContext Context = new();
         public List<User> GetUsers(int count)
         {
             return Context.Users.Take(count).ToList();
