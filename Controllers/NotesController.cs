@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using DiaryAPI.Services;
+﻿using DiaryAPI.Models;
 using DiaryAPI.UOW;
-using DiaryAPI.Models;
-using DiaryAPI.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
 namespace DiaryAPI.Controllers
@@ -13,47 +11,45 @@ namespace DiaryAPI.Controllers
     [Produces(MediaTypeNames.Application.Json)]
     [Consumes(MediaTypeNames.Application.Json)]
     [ApiController]
-
-
-    public class UsersController : ControllerBase
+    public class NotesController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public UsersController(IUnitOfWork unitOfWork)
+        public NotesController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
         /// <summary>
-        /// Returns list of users limited by count number 
+        /// Returns list of notes limited by count number 
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult GetUsers()
+        public ActionResult GetNotes()
         {
 
-            IEnumerable<User> users = _unitOfWork.Users.GetAll();
-            if(!users.Any())
+            IEnumerable<Note> notes = _unitOfWork.Notes.GetAll();
+            if (!notes.Any())
             {
                 return NotFound();
             }
-            return Ok(users);
+            return Ok(notes);
         }
- 
+
         /// <summary>
-        /// Returns a user by its id 
+        /// Returns a note by its id 
         /// </summary>
         /// <returns></returns>
-        [HttpGet("Users/{id}")]
+        [HttpGet("Notes/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult GetUserById(int id)
+        public ActionResult GetNoteById(int id)
         {
-            User? fetchedUser = _unitOfWork.Users.GetById(id);
-            if(fetchedUser != null)
+            Note? fetchedNote = _unitOfWork.Notes.GetById(id);
+            if (fetchedNote != null)
             {
-                return Ok(fetchedUser);
+                return Ok(fetchedNote);
 
             }
             else
@@ -63,44 +59,44 @@ namespace DiaryAPI.Controllers
             }
         }
         /// <summary>
-        /// Creates a user    
+        /// Creates a note    
         /// </summary>
         /// <returns></returns>
         /// 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult CreateUser([FromBody] User user)
+        public ActionResult CreateUser([FromBody] Note note)
         {
-            User newUser = _unitOfWork.Users.Add(user);
-            if (newUser != null)
+            Note newNote = _unitOfWork.Notes.Add(note);
+            if (newNote != null)
             {
                 _unitOfWork.Complete();
-                return Created("User Added Successfully", user);
+                return Created("Note Added Successfully", note);
 
             }
-                
+
             else
                 return BadRequest();
 
 
         }
         /// <summary>
-        /// Edits a user by its id
+        /// Edits a note by its id
         /// </summary>
         /// <returns></returns>
         [HttpPatch("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult UpdateUser(int id,JsonPatchDocument<User> userUpdates)
+        public ActionResult UpdateNote(int id, JsonPatchDocument<Note> noteUpdates)
         {
-           
-            User? user = _unitOfWork.Users.GetById(id);
 
-            if (user != null)
+            Note? note = _unitOfWork.Notes.GetById(id);
+
+            if (note != null)
             {
-                userUpdates.ApplyTo(user);
-                _unitOfWork.Users.Update(user);
+                noteUpdates.ApplyTo(note);
+                _unitOfWork.Notes.Update(note);
                 _unitOfWork.Complete();
                 return NoContent();
             }
@@ -108,22 +104,22 @@ namespace DiaryAPI.Controllers
             {
                 return NotFound();
             }
-            
+
         }
         /// <summary>
-        /// Deletes a user with a given id
+        /// Deletes a note with a given id
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult DeleteUsers(int id)
+        public ActionResult DeleteNotes(int id)
         {
 
-            User deletedUser = _unitOfWork.Users.GetById(id);
-            if(deletedUser != null)
+            Note deletedNote = _unitOfWork.Notes.GetById(id);
+            if (deletedNote != null)
             {
-              _unitOfWork.Users.Delete(deletedUser);
+                _unitOfWork.Notes.Delete(deletedNote);
                 _unitOfWork.Complete();
                 return NoContent();
 
@@ -137,4 +133,3 @@ namespace DiaryAPI.Controllers
         }
     }
 }
- 

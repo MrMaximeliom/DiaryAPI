@@ -4,7 +4,38 @@
         <name>DiaryAPI</name>
     </assembly>
     <members>
-        <member name="M:DiaryAPI.Controllers.UsersController.GetUsers(System.Int32)">
+        <member name="M:DiaryAPI.Controllers.NotesController.GetNotes">
+            <summary>
+            Returns list of notes limited by count number 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DiaryAPI.Controllers.NotesController.GetNoteById(System.Int32)">
+            <summary>
+            Returns a note by its id 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DiaryAPI.Controllers.NotesController.CreateUser(DiaryAPI.Models.Note)">
+            <summary>
+            Creates a note    
+            </summary>
+            <returns></returns>
+            
+        </member>
+        <member name="M:DiaryAPI.Controllers.NotesController.UpdateNote(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{DiaryAPI.Models.Note})">
+            <summary>
+            Edits a note by its id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DiaryAPI.Controllers.NotesController.DeleteNotes(System.Int32)">
+            <summary>
+            Deletes a note with a given id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DiaryAPI.Controllers.UsersController.GetUsers">
             <summary>
             Returns list of users limited by count number 
             </summary>

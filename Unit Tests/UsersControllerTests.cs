@@ -24,7 +24,7 @@ namespace DiaryAPI.Tests
             var usersController = new UsersController(unitOfWork);
 
             //Act
-            var actionResult = usersController.GetUsers(count);
+            var actionResult = usersController.GetUsers();
 
              
             //Assert
