@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using DiaryAPI.Services;
 using DiaryAPI.UOW;
 using DiaryAPI.Models;
@@ -24,7 +23,7 @@ namespace DiaryAPI.Controllers
             _unitOfWork = unitOfWork;
         }
         /// <summary>
-        /// Returns list of users limited by count number 
+        /// Returns list of users 
         /// </summary>
         /// <returns></returns>
         [HttpGet]

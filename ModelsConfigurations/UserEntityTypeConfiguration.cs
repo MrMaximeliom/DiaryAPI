@@ -26,7 +26,7 @@ namespace DiaryAPI.ModelConfigurations
             userProperty.RegisteredOn)
                 .IsRequired(false)
                 .HasComment("user registering date and time")
-                .HasDefaultValueSql("GETDATE()");
+                .HasDefaultValueSql("now()");
 
             //Configuring Email property
             builder.Property(userProperty =>

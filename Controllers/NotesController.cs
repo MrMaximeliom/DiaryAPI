@@ -20,7 +20,7 @@ namespace DiaryAPI.Controllers
             _unitOfWork = unitOfWork;
         }
         /// <summary>
-        /// Returns list of notes limited by count number 
+        /// Returns list of notes 
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -41,7 +41,7 @@ namespace DiaryAPI.Controllers
         /// Returns a note by its id 
         /// </summary>
         /// <returns></returns>
-        [HttpGet("Notes/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult GetNoteById(int id)

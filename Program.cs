@@ -12,8 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddDbContext<ApplicationDBContext>(
 
-    options => options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
+    options => options.UseNpgsql(
+        builder.Configuration.GetConnectionString("PostgresConnection"),
     b => b.MigrationsAssembly(typeof(ApplicationDBContext).Assembly.FullName))
     );
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
