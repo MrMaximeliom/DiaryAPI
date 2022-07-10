@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DiaryAPI.Services;
+using DiaryAPI.UOW;
 using DiaryAPI.Models;
 using DiaryAPI.Data;
 using Microsoft.AspNetCore.JsonPatch;
@@ -13,10 +14,17 @@ namespace DiaryAPI.Controllers
     [Consumes(MediaTypeNames.Application.Json)]
     [ApiController]
 
+
     public class UsersController : ControllerBase
     {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UsersController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
         /// <summary>
-        /// Returns a user for a given id   
+        /// Returns list of users limited by count number 
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -24,27 +32,54 @@ namespace DiaryAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult GetUsers(int count)
         {
-            UserService userService = new();
-            List < User > users = userService.GetUsers(count);
+
+            IEnumerable<User> users = _unitOfWork.Users.GetAll();
             if(!users.Any())
             {
                 return NotFound();
             }
             return Ok(users);
         }
+ 
+        /// <summary>
+        /// Returns a user by its id 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Users/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult GetUserById(int id)
+        {
+            User? fetchedUser = _unitOfWork.Users.GetById(id);
+            if(fetchedUser != null)
+            {
+                return Ok(fetchedUser);
+
+            }
+            else
+            {
+                return NotFound();
+
+            }
+        }
         /// <summary>
         /// Creates a user    
         /// </summary>
         /// <returns></returns>
+        /// 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult CreateUser([FromBody] User user)
         {
-            UserService userService = new();
-           bool isUserAdded =  userService.CreateUser(user);
-            if (isUserAdded)
+            User newUser = _unitOfWork.Users.Add(user);
+            if (newUser != null)
+            {
+                _unitOfWork.Complete();
                 return Created("User Added Successfully", user);
+
+            }
+                
             else
                 return BadRequest();
 
@@ -59,12 +94,14 @@ namespace DiaryAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult UpdateUser(int id,JsonPatchDocument<User> userUpdates)
         {
-            ApplicationDBContext context = new();
-            User? user = context.Users.Find(id);
+           
+            User? user = _unitOfWork.Users.GetById(id);
+
             if (user != null)
             {
                 userUpdates.ApplyTo(user);
-                context.Users.Update(user);
+                _unitOfWork.Users.Update(user);
+                _unitOfWork.Complete();
                 return NoContent();
             }
             else
@@ -82,14 +119,21 @@ namespace DiaryAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult DeleteUsers(int id)
         {
-            bool isAnythingOk = false;
-            UserService userService = new();
 
-            isAnythingOk = userService.DeleteUser(id);
+            User deletedUser = _unitOfWork.Users.GetById(id);
+            if(deletedUser != null)
+            {
+              _unitOfWork.Users.Delete(deletedUser);
+                _unitOfWork.Complete();
+                return NoContent();
 
-            if (isAnythingOk)
+
+            }
+            else
+            {
                 return BadRequest();
-            return NoContent();
+
+            }
         }
     }
 }

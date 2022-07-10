@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
@@ -25,6 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FakeItEasy" Version="7.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="6.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
@@ -39,10 +40,7 @@
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.3.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DiaryAPI.EF\DiaryAPI.EF.csproj" />
+    <PackageReference Include="xunit" Version="2.4.1" />
   </ItemGroup>
 
 </Project>

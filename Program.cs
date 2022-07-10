@@ -1,16 +1,25 @@
-using DiaryAPI.Controllers;
 using DiaryAPI.Data;
+using DiaryAPI.UOW;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
-ApplicationDBContext db_context = new();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddDbContext<ApplicationDBContext>(
+
+    options => options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+    b => b.MigrationsAssembly(typeof(ApplicationDBContext).Assembly.FullName))
+    );
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddSwaggerGen(
     c => 
     {

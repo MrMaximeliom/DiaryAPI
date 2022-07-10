@@ -6,7 +6,13 @@
     <members>
         <member name="M:DiaryAPI.Controllers.UsersController.GetUsers(System.Int32)">
             <summary>
-            Returns a user for a given id   
+            Returns list of users limited by count number 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DiaryAPI.Controllers.UsersController.GetUserById(System.Int32)">
+            <summary>
+            Returns a user by its id 
             </summary>
             <returns></returns>
         </member>
@@ -15,6 +21,7 @@
             Creates a user    
             </summary>
             <returns></returns>
+            
         </member>
         <member name="M:DiaryAPI.Controllers.UsersController.UpdateUser(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{DiaryAPI.Models.User})">
             <summary>
